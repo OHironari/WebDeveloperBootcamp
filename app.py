@@ -1,6 +1,32 @@
-from flask import Flask,render_template
+import datetime
+from flask import Flask,render_template,request
 
 app = Flask(__name__)
+
+entries = []
+
+@app.route("/",methods=["GET","POST"])
+def home():
+    if request.method == "POST":
+        #contentはhtmlのname=の部分
+        #<textarea name="content" id="entry" class="form__textarea"></textarea>
+        entry_content = request.form.get("content")
+        formatted_date=datetime.datetime.today().strftime("%Y-%m-%d")
+        entries.append((entry_content,formatted_date))
+    entries_with_date = [
+        (
+            entry[0],
+            entry[1],
+            datetime.datetime.strptime(entry[1],"%Y-%m-%d").strftime("%b %d")
+
+        )
+        for entry in entries
+    ]
+    return render_template("home.html",entries=entries_with_date)
+
+
+
+
 
 class GalileanMoons:
     def __init__(self,first,second,third,fourth):
@@ -8,6 +34,44 @@ class GalileanMoons:
         self.second = second
         self.third = third
         self.fourth = fourth
+
+
+
+
+
+@app.route("/for-loop/conditionals")
+def render_for_loops_conditionals():
+    
+    user_os = {
+        "Bob Smith":"Windows",
+        "Anne Pun":"MacOS",
+        "Adam Lee":"Linux",
+        "Jose Salvatierra":"Windows"
+    }
+    return render_template("loops_and_conditionals.html",user_os=user_os)
+
+
+
+@app.route("/for-loop/")
+def render_loops_for():
+    planets = [
+        "Mercury",   # 水星
+        "Venus",     # 金星
+        "Earth",     # 地球
+        "Mars",      # 火星
+        "Jupiter",   # 木星
+        "Saturn",    # 土星
+        "Uranus",    # 天王星
+        "Neptune"    # 海王星
+    ]
+
+    return render_template("for_loop.html",planets=planets)
+
+@app.route("/conditionals_basics/")
+def conditionals_basics():
+    company = ""
+
+    return render_template("conditionals_basics.html",company=company)
 
 
 @app.route("/data_structures/")
