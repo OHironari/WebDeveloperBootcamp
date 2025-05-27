@@ -1,5 +1,8 @@
 #!/bin/zsh
 
+# How to use↓
+# source ./scripts/init.sh
+
 # 仮想環境を有効化
 source .venv/bin/activate
 
