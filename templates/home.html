@@ -1,19 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todos</title>
-</head>
-<body>
-  {% set num_todos = len(todos) %}
-  
-  {% if len(todos) > 0 %}
-  <p>You have {{ len(todos)}} left to do today.</p>
+{% extends 'base.html' %}
+{% import "macros.jinja2" as todos_macros %}
 
+{% block head %}
+
+{% endblock %}
+
+{% block content %}
+  {% set num_todos = todos | length %}
+  {% if num_todos > 0 %}
+    <p>You have {{ num_todos}} left to do today.</p>
+    {{todos.macros.todo_list(todos)}}
   {% else %}
-  <p>You hava nothing to do today! Relax!</p>
-
+    <p>You hava nothing to do today! Relax!</p>
   {% endif %}
-</body>
-</html>
+{% endblock %}

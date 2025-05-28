@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block head %}
+{%if complete %}
+<style>
+    .incomplete {
+        margin: 8pt 16pt;
+        background-color: aquamarine;
+        padding: 12pt 24pt;
+        border: 1pt solid black;
+        border-radius: 4pt;
+    }
+</style>
+{% else %}
+<style>
+    .complete {
+        margin: 8pt 16pt;
+        background-color: darkred;
+        color: white;
+        padding: 12pt 24pt;
+        border: 1pt solid black;
+        border-radius: 4pt;
+    }
+</style>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ text }}</h1>
+    {% if complete %}
+    <p class="complete">You have completed this todo.</p>
+    {% else %}
+    <p class="incomplete">You have not completed this yet. Why not do it now?</p>
+    {% endif %}
+{% endblock %}
