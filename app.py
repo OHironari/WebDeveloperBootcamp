@@ -11,38 +11,16 @@ load_dotenv()
 # 環境変数からMongoDB URIを取得
 mongo_uri = os.getenv("MONGODB_URI")
 
-def create_app():
-    app = Flask(__name__)
-    client = MongoClient(mongo_uri)
-    app.db = client.microblog
-
-    entries = []
-
-    @app.route("/",methods=["GET","POST"])
-    def home():
-        if request.method == "POST":
-            #contentはhtmlのname=の部分
-            #<textarea name="content" id="entry" class="form__textarea"></textarea>
-            entry_content = request.form.get("content")
-            formatted_date=datetime.datetime.today().strftime("%Y-%m-%d")
-            app.db.entries.insert_one({"content" : entry_content, "date" : formatted_date})
-        entries_with_date = [
-            (
-                entry["content"],
-                entry["date"],
-                datetime.datetime.strptime(entry["date"],"%Y-%m-%d").strftime("%b %d")
-
-            )
-            for entry in app.db.entries.find({})
-        ]
-        return render_template("home.html",entries=entries_with_date)
-
-    return app
+app = Flask(__name__)
 
 
+@app.route("/")
+def index():
+    return render_template("index.html",title="Habit Tracker - Home")
 
-
-
+@app.route("/add",methods=["GET","POST"])
+def add_habit():
+    return render_template("add_habit.html",title="Habit Tracker - Add Habit")
 
 
 

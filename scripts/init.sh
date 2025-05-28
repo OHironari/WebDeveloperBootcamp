@@ -13,3 +13,4 @@ else
   echo ".env file not found"
 fi
 
+flask run
